@@ -1,5 +1,5 @@
 <Agenda>
-  <titulo>Agenda</titulo>
+  <titulo>Negocio.Agenda</titulo>
   <compromissos>
     <Compromisso>
       <titulo>Aniversario</titulo>
@@ -30,7 +30,7 @@
       <titulo>Aniversario</titulo>
       <assunto>Aniversario do Joao</assunto>
       <local>Casa do Joao</local>
-      <dataIn reference="../../Compromisso/dataIn"/>
+      <dataIn reference="../../Negocio.Compromisso/dataIn"/>
       <dataOut resolves-to="java.time.Ser">
         <byte>5</byte>
         <int>2015</int>
@@ -46,7 +46,7 @@
       <titulo>Aniversario</titulo>
       <assunto>Aniversario do Joao</assunto>
       <local>Casa do Joao</local>
-      <dataIn reference="../../Compromisso/dataIn"/>
+      <dataIn reference="../../Negocio.Compromisso/dataIn"/>
       <dataOut resolves-to="java.time.Ser">
         <byte>5</byte>
         <int>2015</int>
@@ -62,7 +62,7 @@
       <titulo>Aniversario</titulo>
       <assunto>Aniversario do Joao</assunto>
       <local>Casa do Joao</local>
-      <dataIn reference="../../Compromisso/dataIn"/>
+      <dataIn reference="../../Negocio.Compromisso/dataIn"/>
       <dataOut resolves-to="java.time.Ser">
         <byte>5</byte>
         <int>2015</int>

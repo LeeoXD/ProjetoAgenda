@@ -1,4 +1,6 @@
-import java.lang.reflect.Array;
+package Negocio;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -15,8 +17,9 @@ public class Agenda {
         compromissos = new ArrayList<Compromisso>();
     }
 
-    public void inserirCompromisso(Compromisso com) {
-        compromissos.add(com);
+    public void inserirCompromisso(String titulo, String assunto, String local, LocalDateTime dataIn, LocalDateTime dataOut) {
+        Compromisso comp = new Compromisso(titulo, assunto, local, dataIn, dataOut);
+        compromissos.add(comp);
     }
 
     public void removerCompromisso(Compromisso com) {
