@@ -2,8 +2,8 @@ package Negocio; /**
  * Created by pcqs on 07/10/2015.
  */
 
-import Negocio.*;
 
+import Persistencia.GerenciaXML;
 import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -81,5 +81,13 @@ public class Fachada {
             listaModel.addElement(a);
         }
         return listaModel;
+    }
+
+    public static boolean salvaXML(String nomeArq) {
+        return GerenciaXML.Salva(gerenciador, nomeArq);
+    }
+
+    public static void carregaXML(String nomeArq) {
+        gerenciador = GerenciaXML.Carrega(nomeArq);
     }
 }

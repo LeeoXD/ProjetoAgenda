@@ -1,8 +1,6 @@
 package Apresentacao;
 
-import Negocio.Agenda;
-import Negocio.Compromisso;
-import Negocio.Fachada;
+import Negocio.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +20,6 @@ public class CriaCompromissoListener implements ActionListener {
         LocalDateTime dataIn = LocalDateTime.parse(dataI);
         LocalDateTime dataOut = LocalDateTime.parse(dataO);
         Fachada.insereCompromisso(age, titulo, assunto, local, dataIn, dataOut);
-        System.out.println();
         lista = Fachada.atualizaComps(lista, age.getCompromissos());
         ((JButton)e.getSource()).transferFocusBackward();
     }

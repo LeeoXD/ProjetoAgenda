@@ -1,9 +1,6 @@
 package Apresentacao;
 
-import Negocio.Agenda;
-import Negocio.Compromisso;
-import Negocio.Fachada;
-
+import Negocio.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

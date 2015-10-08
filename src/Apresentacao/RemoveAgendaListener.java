@@ -1,7 +1,6 @@
 package Apresentacao;
 
-import Negocio.Agenda;
-import Negocio.Fachada;
+import Negocio.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,10 +16,8 @@ public class RemoveAgendaListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(listaAgendas.toString());
         Fachada.removeAgenda(agenda);
         listaAgendas = Fachada.atualizaAgendas(listaAgendas);
-        System.out.println(listaAgendas.toString());
         ((JButton)e.getSource()).transferFocusBackward();
     }
 }

@@ -10,8 +10,8 @@ public class FiltraAssunto implements Filtro{
 
     private String assunto;
 
-    public List<Compromisso> filtraLista(List<Compromisso> comp, String assunto) {
-        this.assunto = assunto;
+    public List<Compromisso> filtraLista(List<Compromisso> comp, String assunt) {
+        assunto = assunt;
         return filtraLista(comp);
     }
 
@@ -22,4 +22,5 @@ public class FiltraAssunto implements Filtro{
                 .collect(Collectors.toList());
         return res;
     }
+
 }

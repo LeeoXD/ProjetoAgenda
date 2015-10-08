@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 /**
  * Created by pcqs on 06/10/2015.
  */
-public class FiltraMesAtual implements Filtro {
+public class FiltraMesAtual implements Filtro{
 
     @Override
     public List<Compromisso> filtraLista(List<Compromisso> compromissos) {
