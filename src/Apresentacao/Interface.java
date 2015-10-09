@@ -2,6 +2,7 @@ package Apresentacao;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.time.LocalDateTime;
 
 import Negocio.*;
 
@@ -32,12 +33,8 @@ public class Interface {
     public Interface() {
         criaAgendaButton.addActionListener(new CriaAgendaListener());
         criarCompromissoButton.addActionListener(new CriaCompromissoListener());
-        criarCompromissoButton.addActionListener(new CompromissoListenerAux());
         filtrarButton.addActionListener(new FiltrarListener());
-        filtrarButton.addFocusListener(new FiltrarListenerAux());
         verInfoButton.addActionListener(new VerInfoListener());
-        criaAgendaButton.addFocusListener(new AgendaListenerAux());
-        comboBox1.addFocusListener(new ComboBoxListener());
         removeAgendaButton.addFocusListener(new RemoveAgendaListenerAux());
         removeAgendaButton.addActionListener(new RemoveAgendaListener());
         removeCompromissoButton.addFocusListener(new RemoveCompListenerAux());
@@ -45,11 +42,8 @@ public class Interface {
         salvarButton.addActionListener(new SalvarXMLListener());
         carregarButton.addActionListener(new CarregarXMLListener());
         list1.addMouseListener(new ListaListener());
-        list2.addFocusListener(new Lista2Listener());
-        TextField.addFocusListener(new TextListener());
         list1.setModel(listaAgendas);
         list2.setModel(listaComp);
-
     }
 
     public static void main(String[] args) {
@@ -60,30 +54,15 @@ public class Interface {
         frame.setVisible(true);
     }
 
-    private class CompromissoListenerAux implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String titulo = JOptionPane.showInputDialog("Digite o titulo do compromisso:");
-            String assunto = JOptionPane.showInputDialog("Digite o assunto do compromisso:");
-            String local = JOptionPane.showInputDialog("Digite o local do compromisso:");
-            String dataI = JOptionPane.showInputDialog("Digite a data de inicio do compromisso(YYYY-MM-DD'T'HH:MM:SS):");
-            String dataO = JOptionPane.showInputDialog("Digite a data de termino do compromisso(YYYY-MM-DD'T'HH:MM:SS):");
-            CriaCompromissoListener.titulo = titulo;
-            CriaCompromissoListener.assunto = assunto;
-            CriaCompromissoListener.local = local;
-            CriaCompromissoListener.dataI = dataI;
-            CriaCompromissoListener.dataO = dataO;
-            CriaCompromissoListener.age = (Agenda) list1.getSelectedValue();
-        }
-    }
-
     private class ListaListener extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
-            Agenda a = (Agenda) list1.getSelectedValue();
-            listaComp = Fachada.atualizaComps(listaComp,a.getCompromissos());
-            list2.setModel(listaComp);
-            list2.setSelectedIndex(0);
+            if(listaAgendas.size() > 0) {
+                Agenda a = (Agenda) list1.getSelectedValue();
+                listaComp = Fachada.atualizaComps(listaComp, a.getCompromissos());
+                list2.setModel(listaComp);
+                list2.setSelectedIndex(0);
+            }
         }
     }
 
@@ -95,63 +74,16 @@ public class Interface {
         }
     }
 
-    private class TextListener extends FocusAdapter {
-        @Override
-        public void focusLost(FocusEvent e) {
-            CriaAgendaListener.texto = TextField.getText();
-            CriaAgendaListener.listaAgendas = listaAgendas;
-        }
-    }
-
-    private class AgendaListenerAux extends FocusAdapter {
-        @Override
-        public void focusLost(FocusEvent e) {
-            listaAgendas = CriaAgendaListener.listaAgendas;
-            list1.setModel(listaAgendas);
-            list1.setSelectedIndex(0);
-        }
-    }
-
     private class RemoveAgendaListenerAux extends FocusAdapter {
         public void focusLost(FocusEvent e) {
             listaAgendas = RemoveAgendaListener.listaAgendas;
             list1.setModel(listaAgendas);
+            list2.setModel(new DefaultListModel<Compromisso>());
+
         }
         public void focusGained(FocusEvent e) {
             RemoveAgendaListener.agenda = (Agenda) list1.getSelectedValue();
             RemoveAgendaListener.listaAgendas = listaAgendas;
-        }
-    }
-
-    private class ComboBoxListener extends FocusAdapter {
-        @Override
-        public void focusLost(FocusEvent e) {
-            FiltrarListener.index = comboBox1.getSelectedIndex();
-            FiltrarListener.agenda = (Agenda) list1.getSelectedValue();
-            FiltrarListener.listaModel = listaComp;
-            if (comboBox1.getSelectedIndex() == 4 || comboBox1.getSelectedIndex() == 5) {
-                if (comboBox1.getSelectedIndex() == 4) {
-                    FiltrarListener.param = JOptionPane.showInputDialog(comboBox1, "Digite o assunto:");
-                } else if (comboBox1.getSelectedIndex() == 5) {
-                    FiltrarListener.param = JOptionPane.showInputDialog(comboBox1, "Digite o local:");
-                }
-                filtrarButton.transferFocus();
-            }
-        }
-    }
-
-    private class Lista2Listener extends FocusAdapter {
-        public void focusGained(FocusEvent e) {
-            listaComp = CriaCompromissoListener.lista;
-            list2.setModel(listaComp);
-        }
-    }
-
-    private class FiltrarListenerAux extends FocusAdapter{
-        @Override
-        public void focusLost(FocusEvent e) {
-            listaComp = FiltrarListener.listaModel;
-            list2.setModel(listaComp);
         }
     }
 
@@ -180,10 +112,74 @@ public class Interface {
             list2.setModel(listaComp);
         }
         public void focusGained(FocusEvent e) {
-            RemoveCompListener.ag = (Agenda) list1.getSelectedValue();
-            RemoveCompListener.comp = (Compromisso) list2.getSelectedValue();
-            RemoveCompListener.listaComp = listaComp;
+            if(listaAgendas.size() > 0 && listaComp.size() > 0) {
+                RemoveCompListener.ag = (Agenda) list1.getSelectedValue();
+                RemoveCompListener.comp = (Compromisso) list2.getSelectedValue();
+                RemoveCompListener.listaComp = listaComp;
+            }
         }
     }
 
+    private class CriaCompromissoListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(list1.getSelectedValue() == null || listaAgendas.size() <= 0) {
+                JOptionPane.showMessageDialog(criarCompromissoButton,"Selecione uma agenda antes de criar um compromisso","Aviso",JOptionPane.WARNING_MESSAGE);
+            }
+            else {
+                String titulo = JOptionPane.showInputDialog("Digite o titulo do compromisso:");
+                String assunto = JOptionPane.showInputDialog("Digite o assunto do compromisso:");
+                String local = JOptionPane.showInputDialog("Digite o local do compromisso:");
+                String dataI = JOptionPane.showInputDialog("Digite a data de inicio do compromisso(YYYY-MM-DD'T'HH:MM:SS):");
+                String dataO = JOptionPane.showInputDialog("Digite a data de termino do compromisso(YYYY-MM-DD'T'HH:MM:SS):");
+                Agenda age = (Agenda) list1.getSelectedValue();
+                LocalDateTime dataIn = LocalDateTime.parse(dataI);
+                LocalDateTime dataOut = LocalDateTime.parse(dataO);
+                Fachada.insereCompromisso(age, titulo, assunto, local, dataIn, dataOut);
+                listaComp = Fachada.atualizaComps(listaComp, age.getCompromissos());
+                list2.setModel(listaComp);
+            }
+        }
+    }
+
+    private class CriaAgendaListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String texto;
+            if(TextField.getText().equals("") || TextField.getText().matches("[\\s]+")) {
+                texto = "Sem titulo";
+            }
+            else {
+                texto = TextField.getText();
+            }
+            Fachada.criaAgenda(texto);
+            listaAgendas = Fachada.atualizaAgendas(listaAgendas);
+            list1.setModel(listaAgendas);
+            list1.setSelectedIndex(list1.getModel().getSize() - 1);
+        }
+    }
+
+    private class FiltrarListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = comboBox1.getSelectedIndex();
+            if((listaComp.size() <= 0 || listaAgendas.size() <= 0) && index > 0) {
+                JOptionPane.showMessageDialog(filtrarButton,"Nao ha compromissos para filtrar", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+            else {
+                Agenda agenda = (Agenda) list1.getSelectedValue();
+                String param = "";
+                if (comboBox1.getSelectedIndex() == 4 || comboBox1.getSelectedIndex() == 5) {
+                    if (comboBox1.getSelectedIndex() == 4) {
+                        param = JOptionPane.showInputDialog(comboBox1, "Digite o assunto:");
+                    } else if (comboBox1.getSelectedIndex() == 5) {
+                        param = JOptionPane.showInputDialog(comboBox1, "Digite o local:");
+                    }
+                }
+                listaComp = Fachada.atualizaComps(listaComp, Fachada.aplicaFiltro(index, param, agenda));
+                list2.setModel(listaComp);
+            }
+        }
+    }
 }
+

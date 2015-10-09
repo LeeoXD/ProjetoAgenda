@@ -35,7 +35,7 @@ public class Fachada {
 
     public static List<Compromisso> aplicaFiltro(int tipo, String param, Agenda ag) {
         String aux = "";
-        switch (tipo) {
+        switch(tipo) {
             case 0:
                 break;
             case 1:
@@ -49,9 +49,11 @@ public class Fachada {
                 break;
             case 4:
                 filtro = new FiltraAssunto();
+                aux = param;
                 break;
             case 5:
                 filtro = new FiltraLocal();
+                aux = param;
                 break;
         }
         List<Compromisso> comps;
@@ -62,7 +64,12 @@ public class Fachada {
                 comps = ((FiltraLocal) filtro).filtraLista(ag.getCompromissos(), aux);
             }
         } else {
-            comps = filtro.filtraLista(ag.getCompromissos());
+            if(tipo == 0) {
+                comps = ag.getCompromissos();
+            }
+            else {
+                comps = filtro.filtraLista(ag.getCompromissos());
+            }
         }
         return comps;
     }

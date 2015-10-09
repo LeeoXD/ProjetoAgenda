@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 public class RemoveAgendaListener implements ActionListener {
 
     public static Agenda agenda;
-    public static DefaultListModel<Agenda> listaAgendas;
+    public static DefaultListModel<Agenda> listaAgendas = new DefaultListModel<>();
 
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -10,9 +10,9 @@ import java.awt.event.ActionListener;
  */
 public class RemoveCompListener implements ActionListener{
 
-    public static Compromisso comp;
-    public static Agenda ag;
-    public static DefaultListModel<Compromisso> listaComp;
+    public static Compromisso comp = new Compromisso();
+    public static Agenda ag = new Agenda();
+    public static DefaultListModel<Compromisso> listaComp = new DefaultListModel<>();
 
     @Override
     public void actionPerformed(ActionEvent e) {

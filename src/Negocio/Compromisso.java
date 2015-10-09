@@ -19,6 +19,9 @@ public class Compromisso {
         this.dataOut = dataOut;
     }
 
+    public Compromisso() {
+    }
+
     public String getTitulo() {
         return titulo;
     }
@@ -64,6 +67,6 @@ public class Compromisso {
     }
 
     public String toString() {
-        return "Compromisso: " + titulo + " - Assunto: " + assunto;
+        return "Compromisso: " + titulo + " - Data: " + dataIn.toString();
     }
 }
