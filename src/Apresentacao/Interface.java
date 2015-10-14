@@ -35,15 +35,14 @@ public class Interface {
         criarCompromissoButton.addActionListener(new CriaCompromissoListener());
         filtrarButton.addActionListener(new FiltrarListener());
         verInfoButton.addActionListener(new VerInfoListener());
-        removeAgendaButton.addFocusListener(new RemoveAgendaListenerAux());
         removeAgendaButton.addActionListener(new RemoveAgendaListener());
-        removeCompromissoButton.addFocusListener(new RemoveCompListenerAux());
         removeCompromissoButton.addActionListener(new RemoveCompListener());
         salvarButton.addActionListener(new SalvarXMLListener());
         carregarButton.addActionListener(new CarregarXMLListener());
         list1.addMouseListener(new ListaListener());
         list1.setModel(listaAgendas);
         list2.setModel(listaComp);
+        salvarButton1.addActionListener(new SalvarICalendarListener());
     }
 
     public static void main(String[] args) {
@@ -74,19 +73,6 @@ public class Interface {
         }
     }
 
-    private class RemoveAgendaListenerAux extends FocusAdapter {
-        public void focusLost(FocusEvent e) {
-            listaAgendas = RemoveAgendaListener.listaAgendas;
-            list1.setModel(listaAgendas);
-            list2.setModel(new DefaultListModel<Compromisso>());
-
-        }
-        public void focusGained(FocusEvent e) {
-            RemoveAgendaListener.agenda = (Agenda) list1.getSelectedValue();
-            RemoveAgendaListener.listaAgendas = listaAgendas;
-        }
-    }
-
     private class CarregarXMLListener implements ActionListener {
 
         @Override
@@ -103,20 +89,7 @@ public class Interface {
         public void actionPerformed(ActionEvent e) {
             String nome = JOptionPane.showInputDialog(salvarButton,"Digite o nome do arquivo(Sem extensao):");
             Fachada.salvaXML(nome);
-        }
-    }
-
-    private class RemoveCompListenerAux extends FocusAdapter {
-        public void focusLost(FocusEvent e) {
-            listaComp = RemoveCompListener.listaComp;
-            list2.setModel(listaComp);
-        }
-        public void focusGained(FocusEvent e) {
-            if(listaAgendas.size() > 0 && listaComp.size() > 0) {
-                RemoveCompListener.ag = (Agenda) list1.getSelectedValue();
-                RemoveCompListener.comp = (Compromisso) list2.getSelectedValue();
-                RemoveCompListener.listaComp = listaComp;
-            }
+            JOptionPane.showMessageDialog(salvarButton,"Arquivo salvo com sucesso.");
         }
     }
 
@@ -152,10 +125,13 @@ public class Interface {
             else {
                 texto = TextField.getText();
             }
-            Fachada.criaAgenda(texto);
-            listaAgendas = Fachada.atualizaAgendas(listaAgendas);
-            list1.setModel(listaAgendas);
-            list1.setSelectedIndex(list1.getModel().getSize() - 1);
+            if(Fachada.isRepetida(texto)) JOptionPane.showMessageDialog(criaAgendaButton,"Ja existe uma agenda com este nome. Escolha outro.");
+            else {
+                Fachada.criaAgenda(texto);
+                listaAgendas = Fachada.atualizaAgendas(listaAgendas);
+                list1.setModel(listaAgendas);
+                list1.setSelectedIndex(list1.getModel().getSize() - 1);
+            }
         }
     }
 
@@ -181,5 +157,37 @@ public class Interface {
             }
         }
     }
-}
 
+    private class RemoveAgendaListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Agenda agenda = (Agenda) list1.getSelectedValue();
+            Fachada.removeAgenda(agenda);
+            listaAgendas = Fachada.atualizaAgendas(listaAgendas);
+            list1.setModel(listaAgendas);
+            list2.setModel(new DefaultListModel<Compromisso>());
+        }
+    }
+
+    private class RemoveCompListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Agenda ag = (Agenda) list1.getSelectedValue();
+            Compromisso comp = (Compromisso) list2.getSelectedValue();
+            Fachada.removeCompromisso(ag, comp);
+            listaComp = Fachada.atualizaComps(listaComp,ag.getCompromissos());
+            list2.setModel(listaComp);
+        }
+    }
+
+    private class SalvarICalendarListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Fachada.salvaICalendar();
+            JOptionPane.showMessageDialog(salvarButton, "Arquivo salvo com sucesso.");
+        }
+    }
+}

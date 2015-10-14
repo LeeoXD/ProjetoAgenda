@@ -3,6 +3,7 @@ package Negocio; /**
  */
 
 
+import Persistencia.GerenciaICalendar;
 import Persistencia.GerenciaXML;
 import javax.swing.*;
 import java.time.LocalDateTime;
@@ -96,5 +97,15 @@ public class Fachada {
 
     public static void carregaXML(String nomeArq) {
         gerenciador = GerenciaXML.Carrega(nomeArq);
+    }
+
+    public static void salvaICalendar() { GerenciaICalendar.salvarDados(gerenciador); }
+
+    public static boolean isRepetida(String tit) {
+
+        for(Agenda a : gerenciador.getAgendas()) {
+            if(a.getTitulo().equals(tit)) return true;
+        }
+        return false;
     }
 }
