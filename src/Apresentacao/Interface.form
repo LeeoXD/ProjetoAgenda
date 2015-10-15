@@ -135,9 +135,9 @@
           <horizontalAlignment value="0"/>
           <horizontalTextPosition value="2"/>
           <margin top="10" left="30" bottom="10" right="30"/>
-          <maximumSize width="100" height="25"/>
-          <minimumSize width="100" height="25"/>
-          <preferredSize width="100" height="25"/>
+          <maximumSize width="120" height="25"/>
+          <minimumSize width="120" height="25"/>
+          <preferredSize width="120" height="25"/>
           <text value="Filtrar"/>
         </properties>
       </component>
@@ -180,14 +180,6 @@
             </constraints>
             <properties>
               <text value="Salvar"/>
-            </properties>
-          </component>
-          <component id="f541a" class="javax.swing.JButton" binding="carregarButton1" default-binding="true">
-            <constraints>
-              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Carregar"/>
             </properties>
           </component>
           <component id="2db40" class="javax.swing.JLabel">

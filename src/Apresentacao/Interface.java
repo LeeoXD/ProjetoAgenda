@@ -1,10 +1,14 @@
 package Apresentacao;
 
 import javax.swing.*;
+import javax.swing.plaf.multi.MultiLookAndFeel;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.event.*;
 import java.time.LocalDateTime;
 
 import Negocio.*;
+import com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel;
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 /**
  * Created by pcqs on 06/10/2015.
@@ -26,7 +30,6 @@ public class Interface {
     private JButton carregarButton;
     private JButton salvarButton;
     private JButton salvarButton1;
-    private JButton carregarButton1;
     private DefaultListModel<Agenda> listaAgendas = new DefaultListModel<Agenda>();
     private DefaultListModel<Compromisso> listaComp = new DefaultListModel<Compromisso>();
 
@@ -47,6 +50,11 @@ public class Interface {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Interface");
+        try {
+            UIManager.setLookAndFeel(new NimbusLookAndFeel());
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
         frame.setContentPane(new Interface().painel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -77,7 +85,7 @@ public class Interface {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String nome = JOptionPane.showInputDialog(carregarButton,"Digite o nome do arquivo(sem extensao):");
+            String nome = JOptionPane.showInputDialog(carregarButton,"Digite o nome/caminho do arquivo(sem extensao):");
             Fachada.carregaXML(nome);
             listaAgendas = Fachada.atualizaAgendas(listaAgendas);
             list1.setModel(listaAgendas);
@@ -87,9 +95,15 @@ public class Interface {
     private class SalvarXMLListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String nome = JOptionPane.showInputDialog(salvarButton,"Digite o nome do arquivo(Sem extensao):");
-            Fachada.salvaXML(nome);
-            JOptionPane.showMessageDialog(salvarButton,"Arquivo salvo com sucesso.");
+            String nome = JOptionPane.showInputDialog(salvarButton,"Digite o nome/caminho do arquivo(Sem extensao):");
+            if(Fachada.salvaXML(nome)) {
+                JOptionPane.showMessageDialog(salvarButton,"Arquivo salvo com sucesso.");
+            }
+            else {
+                JOptionPane.showMessageDialog(salvarButton,"Caminho nao encontrado/Acesso Negado.");
+            }
+
+
         }
     }
 
