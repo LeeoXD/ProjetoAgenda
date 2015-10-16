@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/pcqs.PCQS08/Downloads/xstream-1.4.8/lib/xstream-1.4.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pcqs.PCQS08/Downloads/xstream-1.4.8/lib/xstream-benchmark-1.4.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pcqs.PCQS08/Downloads/xstream-1.4.8/lib/xstream-hibernate-1.4.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pcqs.PCQS08/Downloads/biweekly-0.4.3-with-deps/biweekly-0.4.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pcqs.PCQS08/Downloads/biweekly-0.4.3-with-deps/jackson-core-2.6.1.jar"/>
+	<classpathentry kind="output" path="out/production/ProjetoAgenda"/>
+</classpath>

@@ -1,14 +1,10 @@
 package Apresentacao;
 
 import javax.swing.*;
-import javax.swing.plaf.multi.MultiLookAndFeel;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.event.*;
 import java.time.LocalDateTime;
-
 import Negocio.*;
-import com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 /**
  * Created by pcqs on 06/10/2015.
@@ -18,7 +14,7 @@ public class Interface {
     private JTextField TextField;
     private JButton criaAgendaButton;
     private JList list1;
-    private JPanel painel;
+    private JPanel painel; 
     private JScrollPane scrollpane;
     private JButton criarCompromissoButton;
     private JList list2;
@@ -156,7 +152,7 @@ public class Interface {
             if((listaComp.size() <= 0 || listaAgendas.size() <= 0) && index > 0) {
                 JOptionPane.showMessageDialog(filtrarButton,"Nao ha compromissos para filtrar", "Aviso", JOptionPane.WARNING_MESSAGE);
             }
-            else {
+            else if(index > 0){
                 Agenda agenda = (Agenda) list1.getSelectedValue();
                 String param = "";
                 if (comboBox1.getSelectedIndex() == 4 || comboBox1.getSelectedIndex() == 5) {
@@ -167,8 +163,12 @@ public class Interface {
                     }
                 }
                 listaComp = Fachada.atualizaComps(listaComp, Fachada.aplicaFiltro(index, param, agenda));
-                list2.setModel(listaComp);
             }
+            else {
+                Agenda agenda = (Agenda) list1.getSelectedValue();
+                listaComp = Fachada.atualizaComps(listaComp, agenda.getCompromissos());
+            }
+            list2.setModel(listaComp);
         }
     }
 
@@ -176,11 +176,16 @@ public class Interface {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Agenda agenda = (Agenda) list1.getSelectedValue();
-            Fachada.removeAgenda(agenda);
-            listaAgendas = Fachada.atualizaAgendas(listaAgendas);
-            list1.setModel(listaAgendas);
-            list2.setModel(new DefaultListModel<Compromisso>());
+            if(listaAgendas.size() <= 0) {
+                JOptionPane.showMessageDialog(removeAgendaButton,"Nao ha agendas para remover.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+            else {
+                Agenda agenda = (Agenda) list1.getSelectedValue();
+                Fachada.removeAgenda(agenda);
+                listaAgendas = Fachada.atualizaAgendas(listaAgendas);
+                list1.setModel(listaAgendas);
+                list2.setModel(new DefaultListModel<Compromisso>());
+            }
         }
     }
 
@@ -188,11 +193,16 @@ public class Interface {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Agenda ag = (Agenda) list1.getSelectedValue();
-            Compromisso comp = (Compromisso) list2.getSelectedValue();
-            Fachada.removeCompromisso(ag, comp);
-            listaComp = Fachada.atualizaComps(listaComp,ag.getCompromissos());
-            list2.setModel(listaComp);
+            if(listaComp.size() <= 0 || listaAgendas.size() <= 0) {
+                JOptionPane.showMessageDialog(removeCompromissoButton,"Nao ha compromissos para remover.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+            else {
+                Agenda ag = (Agenda) list1.getSelectedValue();
+                Compromisso comp = (Compromisso) list2.getSelectedValue();
+                Fachada.removeCompromisso(ag, comp);
+                listaComp = Fachada.atualizaComps(listaComp, ag.getCompromissos());
+                list2.setModel(listaComp);
+            }
         }
     }
 
