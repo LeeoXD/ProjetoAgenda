@@ -1,3 +1,5 @@
+package Negocio;
+
 import java.util.ArrayList;
 
 /**
@@ -11,8 +13,8 @@ public class Agendas {
         agendas = new ArrayList<Agenda>();
     }
 
-    public boolean criaAgenda(Agenda ag) {
-        return agendas.add(ag);
+    public boolean criaAgenda(String titulo) {
+        return agendas.add(new Agenda(titulo));
     }
 
     public boolean removeAgenda(Agenda ag) {

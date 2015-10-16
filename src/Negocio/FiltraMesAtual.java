@@ -1,3 +1,5 @@
+package Negocio;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -5,12 +7,13 @@ import java.util.stream.Collectors;
 /**
  * Created by pcqs on 06/10/2015.
  */
-public class FiltraDiaAtual implements Filtro {
+public class FiltraMesAtual implements Filtro{
 
     @Override
     public List<Compromisso> filtraLista(List<Compromisso> compromissos) {
         List<Compromisso> res = compromissos.stream()
-                .filter(com -> com.getDataIn().toLocalDate().isEqual(LocalDate.now()))
+                .filter(com -> com.getDataIn().toLocalDate().getYear() == LocalDate.now().getYear() &&
+                        com.getDataIn().toLocalDate().getMonth().equals(LocalDate.now().getMonth()))
                 .collect(Collectors.toList());
         return res;
     }

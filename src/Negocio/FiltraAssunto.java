@@ -1,19 +1,26 @@
-import java.time.LocalDate;
+package Negocio;
+
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
  * Created by pcqs on 06/10/2015.
  */
-public class FiltraMesAtual implements Filtro {
+public class FiltraAssunto implements Filtro{
+
+    private String assunto;
+
+    public List<Compromisso> filtraLista(List<Compromisso> comp, String assunt) {
+        assunto = assunt;
+        return filtraLista(comp);
+    }
 
     @Override
     public List<Compromisso> filtraLista(List<Compromisso> compromissos) {
         List<Compromisso> res = compromissos.stream()
-                .filter(com -> com.getDataIn().toLocalDate().getYear() == LocalDate.now().getYear() &&
-                        com.getDataIn().toLocalDate().getMonth().equals(LocalDate.now().getMonth()))
+                .filter(com -> com.getAssunto().equals(assunto))
                 .collect(Collectors.toList());
         return res;
     }
+
 }

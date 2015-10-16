@@ -1,4 +1,7 @@
+package Negocio;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by pcqs on 05/10/2015.
@@ -14,6 +17,9 @@ public class Compromisso {
         this.local = local;
         this.dataIn = dataIn;
         this.dataOut = dataOut;
+    }
+
+    public Compromisso() {
     }
 
     public String getTitulo() {
@@ -56,7 +62,11 @@ public class Compromisso {
         this.dataOut = dataOut;
     }
 
+    public String getInfo() {
+        return "Compromisso: " + titulo + "\nAssunto: " + assunto + "\nLocal: " + local + "\nData de Inicio: " + dataIn.format(DateTimeFormatter.ofPattern("dd-mm-yyyy hh:mm:ss")) + "\nData de Termino: " + dataOut.format(DateTimeFormatter.ofPattern("dd-mm-yyyy hh:mm:ss"));
+    }
+
     public String toString() {
-        return "Compromisso: " + titulo + " Assunto: " + assunto + " Local: " + local + " Data de Início: " + dataIn.toString() + " Data de Término: " + dataOut.toString();
+        return "Compromisso: " + titulo + " - Data: " + dataIn.toString();
     }
 }
